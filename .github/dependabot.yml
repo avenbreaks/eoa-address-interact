@@ -1,0 +1,41 @@
+version: 2
+updates:
+    # GitHub actions updates
+    - package-ecosystem: 'github-actions'
+      directory: '/'
+      schedule:
+          interval: 'daily'
+      groups:
+          actions:
+              patterns:
+                  - '*'
+
+    # Dependency updates
+    - package-ecosystem: npm
+      directory: /
+      target-branch: 'main'
+      schedule:
+          interval: weekly
+      open-pull-requests-limit: 10
+      groups:
+          eslint:
+              patterns:
+                  - 'eslint'
+                  - 'eslint-config-prettier'
+                  - '@typescript-eslint/*'
+          types:
+              patterns:
+                  - '@types/*'
+          prettier:
+              patterns:
+                  - 'prettier'
+          everything-else:
+              patterns:
+                  - '*'
+      pull-request-branch-name:
+          separator: '-'
+      ignore:
+          - dependency-name: 'chalk'
+            update-types: ['version-update:semver-major']
+      reviewers:
+          - 'avenbreaks'
